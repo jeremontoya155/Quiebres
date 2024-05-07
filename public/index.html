@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Stock</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .fixed-header {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            z-index: 999;
+        }
+        .table-wrapper-scroll-y {
+            display: block;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .btn{
+            text-align:  center;
+        }
+
+        .div{
+
+            text-align: center;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Consulta de Stock por Sucursal</h1>
+        <form id="sucursalForm" class="mb-3">
+            <div class="form-group row">
+                <label for="sucursal" class="col-sm-4 col-form-label text-right">Ingrese el número de sucursal:</label>
+                <div class="col-sm-4">
+                    <input type="number" id="sucursal" name="sucursal" class="form-control" required>
+                </div>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary">Consultar</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-wrapper-scroll-y mb-4">
+            <table id="resultados" class="table table-striped table-bordered">
+                <!-- Aquí se mostrarán los resultados de la consulta -->
+            </table>
+        </div>
+        <button id="descargarTabla" class="btn btn-success">Descargar Tabla</button>
+
+    </div>
+
+    <!-- Bootstrap JS y jQuery (necesarios para la funcionalidad de Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('sucursalForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
+
+            const sucursal = document.getElementById('sucursal').value;
+
+            // Realizar solicitud AJAX al servidor con el número de sucursal
+            fetch(`/datos/${sucursal}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Mostrar los resultados en la tabla
+                    const table = document.getElementById('resultados');
+                    table.innerHTML = ''; // Limpiar la tabla antes de agregar los nuevos datos
+
+                    // Crear encabezados de tabla
+                    const headers = Object.keys(data[0]);
+                    const headerRow = document.createElement('tr');
+                    headers.forEach(header => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        headerRow.appendChild(th);
+                    });
+                    table.appendChild(headerRow);
+
+                    // Agregar filas de datos a la tabla
+                    data.forEach(rowData => {
+                        const row = document.createElement('tr');
+                        headers.forEach(header => {
+                            const cell = document.createElement('td');
+                            if (header.startsWith('Fecha_')) {
+                                // Verificar si la fecha es nula, "31/12/1969" o menor a 2023 y mostrar "-" en su lugar
+                                if (!rowData[header] || rowData[header] === "31/12/1969" || new Date(rowData[header]).getFullYear() < 2023) {
+                                    cell.textContent = "-";
+                                } else {
+                                    // Formatear las fechas antes de mostrarlas
+                                    const fecha = new Date(rowData[header]);
+                                    if (!isNaN(fecha.getTime())) {
+                                        // La fecha es válida, formatearla y mostrarla
+                                        cell.textContent = fecha.toLocaleDateString('es-ES'); // Cambia 'es-ES' según tu preferencia de idioma y formato
+                                    } else {
+                                        // La fecha no es válida, mostrar "-"
+                                        cell.textContent = "-";
+                                    }
+                                }
+                            } else {
+                                cell.textContent = rowData[header];
+                            }
+                            row.appendChild(cell);
+                        });
+                        table.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error al obtener los datos:', error));
+        });
+
+
+        // Obtener el botón de descarga y la tabla
+const btnDescargar = document.getElementById('descargarTabla');
+const tabla = document.getElementById('resultados');
+
+// Agregar evento de clic al botón de descarga
+btnDescargar.addEventListener('click', () => {
+    // Crear un elemento <a> para la descarga
+    const enlaceDescarga = document.createElement('a');
+    enlaceDescarga.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(obtenerDatosTablaComoCSV()));
+    enlaceDescarga.setAttribute('download', 'tabla_stock.csv');
+    enlaceDescarga.style.display = 'none';
+    document.body.appendChild(enlaceDescarga);
+    // Hacer clic en el enlace para iniciar la descarga
+    enlaceDescarga.click();
+    // Eliminar el enlace después de la descarga
+    document.body.removeChild(enlaceDescarga);
+});
+
+// Función para obtener los datos de la tabla como CSV
+function obtenerDatosTablaComoCSV() {
+    const filas = tabla.querySelectorAll('tr');
+    let csv = '';
+    // Recorrer cada fila de la tabla
+    filas.forEach((fila, indiceFila) => {
+        const columnas = fila.querySelectorAll('td, th');
+        // Recorrer cada columna de la fila
+        columnas.forEach((columna, indiceColumna) => {
+            csv += columna.textContent;
+            // Agregar coma si no es la última columna
+            if (indiceColumna < columnas.length - 1) {
+                csv += ',';
+            }
+        });
+        // Agregar nueva línea si no es la última fila
+        if (indiceFila < filas.length - 1) {
+            csv += '\n';
+        }
+    });
+    return csv;
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la consulta</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resultados de la consulta</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Producto</th>
+                <th>Codebar</th>
+                <th>Sucursal</th>
+                <th>Producto</th>
+                <th>Presentación</th>
+                <th>Cantidad</th>
+                <th>Fecha Entrada</th>
+                <th>Movimiento Entrada</th>
+                <th>Fecha Factura</th>
+                <th>Movimiento Factura</th>
+                <th>Fecha Pedido</th>
+                <th>Movimiento Pedido</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% resultados.forEach(row => { %>
+                <tr>
+                    <td><%= row.IDProducto %></td>
+                    <td><%= row.codebar %></td>
+                    <td><%= row.Sucursal %></td>
+                    <td><%= row.Producto %></td>
+                    <td><%= row.Presentaci %></td>
+                    <td><%= row.Cantidad %></td>
+                    <td><%= row.Fecha_E %></td>
+                    <td><%= row.Movimiento_E %></td>
+                    <td><%= row.Fecha_F %></td>
+                    <td><%= row.Movimiento_F %></td>
+                    <td><%= row.Fecha_P %></td>
+                    <td><%= row.Movimiento_P %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
