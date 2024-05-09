@@ -60,7 +60,7 @@ app.get('/datos/:sucursal', (req, res) => {
         medicamentos.Presentaci, 
         stock.Cantidad
     HAVING 
-        stock.Cantidad = 0;
+        stock.Cantidad <0;
   `;
 
   // Realizar la consulta SQL principal con la variable de sucursal ya definida
