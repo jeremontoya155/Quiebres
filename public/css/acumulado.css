@@ -44,6 +44,14 @@ body {
 width: 100%;
 border-collapse: collapse;
 margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+}
+
+div#resultados {
+  margin-left: 6em;
+  margin-bottom: 6em;
+  margin-right: 6em;
 }
 
 th, td {

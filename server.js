@@ -38,13 +38,7 @@ app.get('/datos/:sucursal', (req, res) => {
         Concat(medicamentos.Producto," ",  
             medicamentos.Presentaci) as Producto
         , 
-        stock.Cantidad,
-        DATE_FORMAT(MAX(CASE WHEN stockmovimientos.TipoMovimiento = 'E' THEN stockmovimientos.Fecha ELSE NULL END), '%Y-%m-%d') AS Fecha_E,
-        SUM(CASE WHEN stockmovimientos.TipoMovimiento = 'E' THEN stockmovimientos.Cantidad ELSE 0 END) AS Cargas,
-        DATE_FORMAT(MAX(CASE WHEN stockmovimientos.TipoMovimiento = 'F' THEN stockmovimientos.Fecha ELSE NULL END), '%Y-%m-%d') AS Fecha_F,
-        SUM(CASE WHEN stockmovimientos.TipoMovimiento = 'F' THEN stockmovimientos.Cantidad ELSE 0 END) AS Ventas,
-        DATE_FORMAT(MAX(CASE WHEN stockmovimientos.TipoMovimiento = 'P' THEN stockmovimientos.Fecha ELSE NULL END), '%Y-%m-%d') AS Fecha_P,
-        SUM(CASE WHEN stockmovimientos.TipoMovimiento = 'P' THEN stockmovimientos.Cantidad ELSE 0 END) AS Envios
+        stock.Cantidad
     FROM 
         stock 
     INNER JOIN 

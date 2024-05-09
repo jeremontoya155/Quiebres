@@ -20,56 +20,72 @@ document.getElementById('stockForm').addEventListener('submit', async (event) =>
     }
   });
   
-  // Function to transpose data
+  // Function to transpose data and group by month
   function transposeData(data) {
     const transposedData = {};
+  
     data.forEach(row => {
-      const date = new Date(row.fecha); // Convertir la cadena de fecha en un objeto de fecha
-      const day = date.getDate(); // Obtener el día del mes
-      const formattedDate = day.toString(); // Convertir el día a cadena
-      if (!transposedData[row.idproducto]) {
-        transposedData[row.idproducto] = {};
+      const date = new Date(row.fecha);
+      const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  
+      if (!transposedData[monthYear]) {
+        transposedData[monthYear] = {};
       }
-      transposedData[row.idproducto][formattedDate] = row.cantidad_acumulada;
+  
+      const day = date.getDate();
+      const formattedDate = day.toString();
+  
+      if (!transposedData[monthYear][formattedDate]) {
+        transposedData[monthYear][formattedDate] = {};
+      }
+  
+      transposedData[monthYear][formattedDate][row.idproducto] = row.cantidad_acumulada;
     });
+  
     return transposedData;
   }
-  // Function to generate table from transposed data
+  
+  // Function to generate table from transposed data grouped by month
   function generateTable(transposedData) {
-    let tableHTML = '<table><thead><tr><th>ID Producto</th>';
-    // Extract all unique dates for table headers
-    const dates = new Set();
-    Object.values(transposedData).forEach(productData => {
-      Object.keys(productData).forEach(date => {
-        dates.add(date);
+    let tablesHTML = '';
+  
+    for (const [monthYear, monthData] of Object.entries(transposedData)) {
+      tablesHTML += `<h2>${monthYear}</h2><table><thead><tr><th>ID Producto</th>`;
+  
+      const days = Object.keys(monthData).sort((a, b) => parseInt(a) - parseInt(b));
+  
+      days.forEach(day => {
+        tablesHTML += `<th>${day}</th>`;
       });
-    });
-    // Sort dates in ascending order
-    const sortedDates = [...dates].sort();
-    // Add each date as table header
-    sortedDates.forEach(date => {
-
-
-      tableHTML += `<th>${date}</th>`;
-    });
-    tableHTML += '</tr></thead><tbody>';
-    // Add rows for each product
-    Object.entries(transposedData).forEach(([idProducto, productData]) => {
-      tableHTML += `<tr><td>${idProducto}</td>`;
-      // Fill each cell with corresponding stock data or empty if no data
-      sortedDates.forEach(date => {
-        tableHTML += `<td>${productData[date] || ''}</td>`;
+  
+      tablesHTML += '</tr></thead><tbody>';
+  
+      const productIDs = new Set();
+      Object.values(monthData).forEach(dayData => {
+        Object.keys(dayData).forEach(productID => {
+          productIDs.add(productID);
+        });
       });
-      tableHTML += '</tr>';
-    });
-    tableHTML += '</tbody></table>';
-    return tableHTML;
+  
+      productIDs.forEach(productID => {
+        tablesHTML += `<tr><td>${productID}</td>`;
+        days.forEach(day => {
+          const cellData = monthData[day][productID] || '';
+          tablesHTML += `<td>${cellData}</td>`;
+        });
+        tablesHTML += '</tr>';
+      });
+  
+      tablesHTML += '</tbody></table>';
+    }
+  
+    return tablesHTML;
   }
   
   // Function to show transposed data in the "resultados" div
   function showTransposedData(transposedData) {
-    const tableHTML = generateTable(transposedData);
-    document.getElementById('resultados').innerHTML = tableHTML;
+    const tablesHTML = generateTable(transposedData);
+    document.getElementById('resultados').innerHTML = tablesHTML;
   }
   
   // Additional functionality...
@@ -129,4 +145,3 @@ document.getElementById('stockForm').addEventListener('submit', async (event) =>
   
     document.getElementById('resultados').innerHTML = table;
   }
-  

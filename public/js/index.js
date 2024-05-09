@@ -54,7 +54,7 @@ function crearCamposDeFiltro(dataRow) {
     headers.forEach((header, index) => {
         const filtroInput = document.createElement('input');
         filtroInput.setAttribute('type', 'text');
-        filtroInput.setAttribute('placeholder', `Filtrar por ${header}`);
+        filtroInput.setAttribute('placeholder', `${header}`);
         filtroInput.addEventListener('input', aplicarFiltro);
         tableHeader[index].appendChild(filtroInput);
     });
