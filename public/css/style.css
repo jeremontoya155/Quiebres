@@ -1,0 +1,50 @@
+.fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 999;
+}
+.table-wrapper-scroll-y {
+    display: block;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.table {
+    border: 1px solid #dee2e6; /* Agrega un borde a la tabla */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega sombreado para resaltar la tabla */
+    width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table thead th {
+    border-bottom: 2px solid #dee2e6; /* Agrega un borde inferior a los encabezados */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color de fondo para las filas pares */
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #ffffff; /* Color de fondo para las filas impares */
+}
+
+.btn {
+    text-align: center;
+    display: block; /* Cambia el botón a un elemento de bloque */
+    margin: 0 auto; /* Centra horizontalmente el botón */
+    background-color: #007bff; /* Cambia el color de fondo del botón */
+    color: #ffffff; /* Cambia el color del texto del botón a blanco */
+    border: none; /* Elimina el borde del botón */
+    padding: 10px 20px; /* Ajusta el relleno del botón */
+    border-radius: 5px; /* Agrega bordes redondeados al botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar sobre el botón */
+}

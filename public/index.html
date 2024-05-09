@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Stock</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -26,6 +26,25 @@
         <div class="table-wrapper-scroll-y mb-4">
             <table id="resultados" class="table table-striped table-bordered">
                 <!-- Aquí se mostrarán los resultados de la consulta -->
+                <thead>
+                    <tr>
+                        <th>IDProducto</th>
+                        <th>codebar</th>
+                        <th>Sucursal</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Fecha_E</th>
+                        <th>Cargas</th>
+                        <th>Fecha_F</th>
+                        <th>Ventas</th>
+                        <th>Fecha_P</th>
+                        <th>Envios</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se llenará la tabla dinámicamente -->
+                </tbody>
             </table>
         </div>
 
@@ -40,6 +59,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Script personalizado para la funcionalidad del formulario y la tabla -->
-    <script src="index.js"></script>
+    <script src="js/index.js"></script>
+
 </body>
 </html>

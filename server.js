@@ -1,6 +1,8 @@
 require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 const express = require('express');
 const mysql = require('mysql');
+const dotenv = require('dotenv');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -17,6 +19,11 @@ const connection = mysql.createConnection({
 
 // Conectar a la base de datos
 connection.connect();
+
+
+app.get('/bases.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'bases.json'));
+});
 
 // Ruta para obtener los datos de la consulta SQL con el número de sucursal como parámetro
 app.get('/datos/:sucursal', (req, res) => {
@@ -79,6 +86,54 @@ app.get('/datos/:sucursal', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
+
+// Endpoint para consultar el stock acumulado
+app.get('/stock', (req, res) => {
+  // Obtener parámetros desde la URL
+  const fecha_desde = req.query.fecha_desde;
+  const fecha_hasta = req.query.fecha_hasta;
+  const sucursal = req.query.sucursal;
+  const idproducto = req.query.idproducto;
+
+  // Consulta SQL para obtener el stock acumulado
+  const sqlQuery = `
+    SELECT 
+      s.sucursal,
+      d.fecha,
+      s.idproducto,
+      'S' AS tipomovimiento,
+      SUM(
+          CASE WHEN m.fecha <= d.fecha THEN m.cantidad ELSE 0 END
+      ) AS cantidad_acumulada
+    FROM (
+        SELECT DISTINCT fecha
+        FROM stockmovimientos
+        WHERE fecha BETWEEN ? AND ?
+    ) AS d
+    CROSS JOIN stock AS s  
+    LEFT JOIN stockmovimientos AS m ON s.sucursal = m.sucursal
+        AND s.idproducto = m.idproducto
+        AND m.fecha <= d.fecha
+    WHERE s.idproducto = ? AND s.sucursal = ?
+    GROUP BY s.sucursal, d.fecha, s.idproducto
+    ORDER BY d.fecha;
+  `;
+
+  // Ejecutar la consulta SQL
+  connection.query(sqlQuery, [fecha_desde, fecha_hasta, idproducto, sucursal], (error, results) => {
+    if (error) {
+      console.error('Error al ejecutar la consulta SQL:', error);
+      res.status(500).json({ error: 'Error al ejecutar la consulta' });
+      return;
+    }
+
+    // Imprimir los datos devueltos por el servidor en la consola
+    console.log('Datos devueltos por el servidor:', results);
+
+    res.json(results);
+  });
+});
+
 
 // Iniciar el servidor
 app.listen(port, () => {
