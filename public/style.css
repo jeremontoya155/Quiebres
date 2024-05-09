@@ -1,0 +1,25 @@
+.fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 999;
+}
+.table-wrapper-scroll-y {
+    display: block;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+.btn{
+    text-align:  center;
+}
+
+.div{
+
+    text-align: center;
+
+}
