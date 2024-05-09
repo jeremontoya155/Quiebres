@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Stock</title>
+  <link rel="stylesheet" href="Acumulado.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Consulta de Stock</h1>
+    <form id="stockForm">
+      <label for="busqueda">Buscar Producto:</label>
+      <input type="text" id="busqueda" name="busqueda" list="opciones">
+      <datalist id="opciones">
+        <!-- Las opciones se generan dinámicamente con JavaScript -->
+      </datalist>
+      <label for="fecha_desde">Fecha Inicio:</label>
+      <input type="date" id="fecha_desde" name="fecha_desde" required>
+      <label for="fecha_hasta">Fecha Final:</label>
+      <input type="date" id="fecha_hasta" name="fecha_hasta" required>
+      <input type="hidden" id="idproducto" name="idproducto"> <!-- Campo oculto para almacenar el ID del producto -->
+      <label for="sucursal">Sucursal:</label>
+      <input type="text" id="sucursal" name="sucursal" required>
+      <button type="submit">Consultar</button>
+    </form>
+
+    <div id="resultados"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+</body>
+</html>

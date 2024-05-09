@@ -19,6 +19,10 @@ document.getElementById('sucursalForm').addEventListener('submit', function(even
                 th.textContent = header;
                 headerRow.appendChild(th);
             });
+            // Agregar la columna adicional para la redirección
+            const thRedirect = document.createElement('th');
+            thRedirect.textContent = 'Acción';
+            headerRow.appendChild(thRedirect);
             table.appendChild(headerRow);
 
             // Agregar filas de datos a la tabla
@@ -46,6 +50,23 @@ document.getElementById('sucursalForm').addEventListener('submit', function(even
                     }
                     row.appendChild(cell);
                 });
+                
+                // Agregar la celda con el botón de redirección
+const redirectCell = document.createElement('td');
+const redirectButton = document.createElement('button');
+redirectButton.textContent = '+';
+redirectButton.style.backgroundColor = 'green'; // Cambia el color de fondo a verde
+redirectButton.style.color = 'white'; // Cambia el color del texto a blanco
+redirectButton.style.fontWeight = 'bold'; // Aplica negrita al texto
+redirectButton.style.border = 'none'; // Elimina el borde del botón
+redirectButton.style.padding = '0.5em 1em'; // Ajusta el relleno del botón
+redirectButton.addEventListener('click', () => {
+    window.location.href = '/index2.html'; // Cambia aquí la ruta de redirección según sea necesario
+});
+redirectCell.appendChild(redirectButton);
+row.appendChild(redirectCell);
+
+
                 table.appendChild(row);
             });
         })
@@ -59,37 +80,37 @@ const tabla = document.getElementById('resultados');
 
 // Agregar evento de clic al botón de descarga
 btnDescargar.addEventListener('click', () => {
-// Crear un elemento <a> para la descarga
-const enlaceDescarga = document.createElement('a');
-enlaceDescarga.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(obtenerDatosTablaComoCSV()));
-enlaceDescarga.setAttribute('download', 'tabla_stock.csv');
-enlaceDescarga.style.display = 'none';
-document.body.appendChild(enlaceDescarga);
-// Hacer clic en el enlace para iniciar la descarga
-enlaceDescarga.click();
-// Eliminar el enlace después de la descarga
-document.body.removeChild(enlaceDescarga);
+    // Crear un elemento <a> para la descarga
+    const enlaceDescarga = document.createElement('a');
+    enlaceDescarga.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(obtenerDatosTablaComoCSV()));
+    enlaceDescarga.setAttribute('download', 'tabla_stock.csv');
+    enlaceDescarga.style.display = 'none';
+    document.body.appendChild(enlaceDescarga);
+    // Hacer clic en el enlace para iniciar la descarga
+    enlaceDescarga.click();
+    // Eliminar el enlace después de la descarga
+    document.body.removeChild(enlaceDescarga);
 });
 
 // Función para obtener los datos de la tabla como CSV
 function obtenerDatosTablaComoCSV() {
-const filas = tabla.querySelectorAll('tr');
-let csv = '';
-// Recorrer cada fila de la tabla
-filas.forEach((fila, indiceFila) => {
-const columnas = fila.querySelectorAll('td, th');
-// Recorrer cada columna de la fila
-columnas.forEach((columna, indiceColumna) => {
-    csv += columna.textContent;
-    // Agregar coma si no es la última columna
-    if (indiceColumna < columnas.length - 1) {
-        csv += ',';
-    }
-});
-// Agregar nueva línea si no es la última fila
-if (indiceFila < filas.length - 1) {
-    csv += '\n';
-}
-});
-return csv;
+    const filas = tabla.querySelectorAll('tr');
+    let csv = '';
+    // Recorrer cada fila de la tabla
+    filas.forEach((fila, indiceFila) => {
+        const columnas = fila.querySelectorAll('td, th');
+        // Recorrer cada columna de la fila
+        columnas.forEach((columna, indiceColumna) => {
+            csv += columna.textContent;
+            // Agregar coma si no es la última columna
+            if (indiceColumna < columnas.length - 1) {
+                csv += ',';
+            }
+        });
+        // Agregar nueva línea si no es la última fila
+        if (indiceFila < filas.length - 1) {
+            csv += '\n';
+        }
+    });
+    return csv;
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <table id="dataTable" class="styled-table">
+        <thead>
+          <tr>
+            <th>Nombre <input type="text" class="filterInput" data-column="0" placeholder="Filtrar por nombre"></th>
+            <th>Edad <input type="number" class="filterInput" data-column="1" placeholder="Filtrar por edad (rango)"></th>
+            <th>Ciudad <input type="text" class="filterInput" data-column="2" placeholder="Filtrar por ciudad"></th>
+            <th>Fecha <input type="date" class="filterInput" data-column="3" placeholder="Filtrar por fecha (desde)"><br>
+            <input type="date" class="filterInput" data-column="4" placeholder="Filtrar por fecha (hasta)"></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Aquí se llenará la tabla dinámicamente -->
+        </tbody>
+      </table>
+      
+      
+      
+
+<script src="index2.js"></script>
+</body>
+</html>
