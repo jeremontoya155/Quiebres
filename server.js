@@ -78,7 +78,7 @@ app.get('/datos/:sucursal', (req, res) => {
 
 // Servir la página HTML
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname, 'index.html')); // Usar path.join para construir la ruta del archivo
 });
 
 // Endpoint para consultar el stock acumulado
@@ -127,6 +127,39 @@ app.get('/stock', (req, res) => {
     res.json(results);
   });
 });
+
+// Nueva ruta para consultar datos de stock
+app.get('/consulta-stock', (req, res) => {
+  // Obtener parámetros desde la URL
+  const { fecha, idproducto, sucursal } = req.query;
+
+  // Consulta SQL para obtener los datos de stock
+  const sqlQuery = `
+    SELECT sucursal, CURDATE() as fecha, idproducto, 'S' as tipomovimiento, cantidad, unidades, NULL as referencia
+    FROM stock 
+    WHERE idproducto = ? AND sucursal = ?
+    
+    UNION ALL
+    
+    SELECT sucursal, fecha, idproducto, tipomovimiento, SUM(cantidad)*(-1) as cantidad, SUM(unidades)*(-1 ) as unidades, referencia
+    FROM stockmovimientos 
+    WHERE fecha >= ? AND idproducto = ? AND sucursal = ?
+    GROUP BY sucursal, fecha, idproducto, tipomovimiento, referencia
+  `;
+
+  // Ejecutar la consulta SQL
+  connection.query(sqlQuery, [idproducto, sucursal, fecha, idproducto, sucursal], (error, results) => {
+    if (error) {
+      console.error('Error al ejecutar la consulta SQL:', error);
+      res.status(500).json({ error: 'Error al ejecutar la consulta' });
+      return;
+    }
+
+    // Enviar los resultados como respuesta
+    res.json(results);
+  });
+});
+
 
 
 // Iniciar el servidor

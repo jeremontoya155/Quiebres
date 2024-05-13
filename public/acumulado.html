@@ -5,28 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta de Stock</title>
   <link rel="stylesheet" href="css/acumulado.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light ">
        
     
       
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
         </li>
      
         <li class="nav-item active">
-          <a class="nav-link" href="acumulado.html"><Strong>Info</Strong></a>
+          <a class="nav-link" href="acumulado.html"><Strong>Stock</Strong></a>
+        </li>
+
+        <li class="nav-item ">
+          <a class="nav-link" href="movimientos.html"><Strong>Movimientos</Strong></a>
         </li>
       </ul>
     
     </div>
   </nav>
   <div class="container">
-    <h1>Consulta de Stock</h1>
     <form id="stockForm">
       <label for="busqueda">Buscar Producto:</label>
       <input type="text" id="busqueda" name="busqueda" list="opciones">
@@ -47,12 +53,21 @@
   
 
     <div class="pagination" id="pagination"></div>
-   
-  </div>
 
-  <div id="resultados">
+    
+  <div id="resultados" class="tables-container">
     <!-- Aquí se insertarán las tablas generadas -->
   </div>
+   
+  </div>
+  
+  <div class="footer-basic">
+    <footer>
+       
+        <p class="copyright">©Farmacia Sanchez Antoniolli 2018</p>
+    </footer>
+</div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -5,7 +5,8 @@ body {
     background-color: #f7f7f7;
   }
   .container {
-    max-width: 800px;
+
+    width: 67%;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -53,6 +54,7 @@ div#resultados {
   margin-left: 6em;
   margin-bottom: 6em;
   margin-right: 6em;
+  width: 75%;
 }
 
 th, td {

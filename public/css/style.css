@@ -13,12 +13,38 @@
     border: 1px solid #dee2e6; /* Agrega un borde a la tabla */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega sombreado para resaltar la tabla */
     width: 100%; /* Ocupa todo el ancho disponible */
+    table-layout: fixed;
+    position: relative;
 }
+
+.table input[type="text"] {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 16px); /* Ancho que se adapta al th */
+    margin: 5px; /* Margen entre el input y el borde del th */
+    padding: 6px; /* Espacio interno del input */
+    border-radius: 4px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde del input */
+    box-sizing: border-box; /* La anchura incluye el relleno y el borde */
+}
+
+th {
+   
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
 
 .table th,
 .table td {
     text-align: center;
     vertical-align: middle;
+    white-space: nowrap; /* Evita el desbordamiento del contenido */
+    overflow: hidden; /* Oculta el contenido que desborda */
+    margin-bottom: 4em;
+    padding-bottom: 6em;
 }
 
 .table thead th {

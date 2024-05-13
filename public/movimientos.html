@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Stock</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mov.css">
     <link rel="stylesheet" href="css/footer.css">
     <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -13,20 +13,20 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
        
     
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item ">
               <a class="nav-link" href="index.html"><Strong>Home</Strong> <span class="sr-only">(current)</span></a>
             </li>
          
-            <li class="nav-item active">
+            <li class="nav-item ">
               <a class="nav-link" href="acumulado.html">Stock</a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item active">
                 <a class="nav-link" href="movimientos.html"><Strong>Movimientos</Strong></a>
               </li>
           </ul>
@@ -34,45 +34,28 @@
         </div>
       </nav>
 
-    <div class="container mt-5">
-        <form id="sucursalForm" class="mb-3">
-            <div class="form-group row">
-                <label for="sucursal" class="col-sm-4 col-form-label text-right">Ingrese el número de sucursal:</label>
-                <div class="col-sm-4">
-                    <input type="number" id="sucursal" name="sucursal" class="form-control" required>
-                </div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-primary">Consultar</button>
-                    <button id="descargarTabla" class="btn btn-success">Descargar Tabla</button>
-                </div>
-            </div>
+
+      <div class="container">
+      
+        <form id="stockForm">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required>
+            <label for="producto">Producto:</label>
+            <input type="text" id="producto" name="producto" list="productos" required>
+            <datalist id="productos"></datalist>
+            <input type="hidden" id="idProducto" name="idProducto">
+            <label for="sucursal">Sucursal:</label>
+            <input type="text" id="sucursal" name="sucursal" required>
+            <button type="submit">Consultar</button>
         </form>
+        
+    
+        <div id="resultados"></div>
+      </div>
 
-        <div class="table-wrapper-scroll-y mb-4">
-            <table id="resultados" class="table table-striped table-bordered">
-                <!-- Aquí se mostrarán los resultados de la consulta -->
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>codebar</th>
-                        <th>Sucursal</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>               
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se llenará la tabla dinámicamente -->
-                </tbody>
-            </table>
-        </div>
 
-        <!-- Botón de descarga de la tabla -->
-       
 
-    </div>
-
-    <div class="footer-basic my-6">
+    <div class="footer-basic">
         <footer>
             <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
             
@@ -86,7 +69,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Script personalizado para la funcionalidad del formulario y la tabla -->
-    <script src="js/index.js"></script>
+    <script src="js/mov.js"></script>
 
 </body>
 </html>
