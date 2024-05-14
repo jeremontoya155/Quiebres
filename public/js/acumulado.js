@@ -1,24 +1,30 @@
 // Fetch data from server and handle form submission
 document.getElementById('stockForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-  
-    const formData = new FormData(event.target);
-    const fecha_desde = formData.get('fecha_desde');
-    const fecha_hasta = formData.get('fecha_hasta');
-    const idproducto = formData.get('idproducto');
-    const sucursal = formData.get('sucursal');
-  
-    const url = `/stock?fecha_desde=${fecha_desde}&fecha_hasta=${fecha_hasta}&idproducto=${idproducto}&sucursal=${sucursal}`;
-  
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      const transposedData = transposeData(data);
-      showTransposedData(transposedData);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-    }
-  });
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const fecha_desde = formData.get('fecha_desde');
+  const fecha_hasta = formData.get('fecha_hasta');
+  const idproducto = formData.get('idproducto');
+  const sucursal = formData.get('sucursal');
+
+  const url = `/stock?fecha_desde=${fecha_desde}&fecha_hasta=${fecha_hasta}&idproducto=${idproducto}&sucursal=${sucursal}`;
+
+  try {
+    // Mostrar ruedita giratoria
+    document.getElementById('spinner').classList.remove('d-none');
+
+    const response = await fetch(url);
+    const data = await response.json();
+    const transposedData = transposeData(data);
+    showTransposedData(transposedData);
+  } catch (error) {
+    console.error('Error al obtener los datos:', error);
+  } finally {
+    // Ocultar ruedita giratoria
+    document.getElementById('spinner').classList.add('d-none');
+  }
+});
   
   // Function to transpose data and group by month
   function transposeData(data) {
@@ -50,33 +56,92 @@ document.getElementById('stockForm').addEventListener('submit', async (event) =>
     let tablesHTML = '';
   
     for (const [monthYear, monthData] of Object.entries(transposedData)) {
-      tablesHTML += `<h2>${monthYear}</h2><table><thead><tr><th>ID Producto</th>`;
+      tablesHTML += `<h2>${monthYear}</h2>`;
+      tablesHTML += '<div class="table-container">';
   
       const days = Object.keys(monthData).sort((a, b) => parseInt(a) - parseInt(b));
+      const dayIndex = days.indexOf('19');
   
-      days.forEach(day => {
-        tablesHTML += `<th>${day}</th>`;
-      });
+      if (dayIndex >= 0) {
+        const daysBefore19 = days.slice(0, dayIndex);
+        const daysAfter19 = days.slice(dayIndex);
   
-      tablesHTML += '</tr></thead><tbody>';
+        tablesHTML += '<table><thead><tr><th>ID Producto</th>';
   
-      const productIDs = new Set();
-      Object.values(monthData).forEach(dayData => {
-        Object.keys(dayData).forEach(productID => {
-          productIDs.add(productID);
+        daysBefore19.forEach(day => {
+          tablesHTML += `<th>${day}</th>`;
         });
-      });
   
-      productIDs.forEach(productID => {
-        tablesHTML += `<tr><td>${productID}</td>`;
+        tablesHTML += '</tr></thead><tbody>';
+  
+        const productIDs = new Set();
+        Object.values(monthData).forEach(dayData => {
+          Object.keys(dayData).forEach(productID => {
+            productIDs.add(productID);
+          });
+        });
+  
+        productIDs.forEach(productID => {
+          tablesHTML += `<tr><td>${productID}</td>`;
+          daysBefore19.forEach(day => {
+            const cellData = monthData[day][productID] || '';
+            tablesHTML += `<td>${cellData}</td>`;
+          });
+          tablesHTML += '</tr>';
+        });
+  
+        tablesHTML += '</tbody></table>';
+        tablesHTML += '</div>';
+  
+        tablesHTML += '<div class="table-container">';
+  
+        tablesHTML += '<table><thead><tr><th>ID Producto</th>';
+  
+        daysAfter19.forEach(day => {
+          tablesHTML += `<th>${day}</th>`;
+        });
+  
+        tablesHTML += '</tr></thead><tbody>';
+  
+        productIDs.forEach(productID => {
+          tablesHTML += `<tr><td>${productID}</td>`;
+          daysAfter19.forEach(day => {
+            const cellData = monthData[day][productID] || '';
+            tablesHTML += `<td>${cellData}</td>`;
+          });
+          tablesHTML += '</tr>';
+        });
+  
+        tablesHTML += '</tbody></table>';
+      } else {
+        tablesHTML += '<table><thead><tr><th>ID Producto</th>';
+  
         days.forEach(day => {
-          const cellData = monthData[day][productID] || '';
-          tablesHTML += `<td>${cellData}</td>`;
+          tablesHTML += `<th>${day}</th>`;
         });
-        tablesHTML += '</tr>';
-      });
   
-      tablesHTML += '</tbody></table>';
+        tablesHTML += '</tr></thead><tbody>';
+  
+        const productIDs = new Set();
+        Object.values(monthData).forEach(dayData => {
+          Object.keys(dayData).forEach(productID => {
+            productIDs.add(productID);
+          });
+        });
+  
+        productIDs.forEach(productID => {
+          tablesHTML += `<tr><td>${productID}</td>`;
+          days.forEach(day => {
+            const cellData = monthData[day][productID] || '';
+            tablesHTML += `<td>${cellData}</td>`;
+          });
+          tablesHTML += '</tr>';
+        });
+  
+        tablesHTML += '</tbody></table>';
+      }
+      
+      tablesHTML += '</div>';
     }
   
     return tablesHTML;
@@ -119,28 +184,30 @@ document.getElementById('stockForm').addEventListener('submit', async (event) =>
     const slicedData = data.slice(startIndex, endIndex);
   
     const table = `
-      <table>
-        <thead>
-          <tr>
-            <th>Sucursal</th>
-            <th>Fecha</th>
-            <th>ID Producto</th>
-            <th>Tipo Movimiento</th>
-            <th>Cantidad Acumulada</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${slicedData.map(row => `
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-              <td>${row.sucursal}</td>
-              <th>${new Date(row.fecha).toLocaleDateString('es-ES', { day: 'numeric' },"/",{moth:"numeric"})}</th>
-              <td>${row.idproducto}</td>
-              <td>${row.tipomovimiento}</td>
-              <td>${row.cantidad_acumulada}</td>
-            </tr>"
-          `).join('')}
-        </tbody>
-      </table>
+              <th>Sucursal</th>
+              <th>Fecha</th>
+              <th>ID Producto</th>
+              <th>Tipo Movimiento</th>
+              <th>Cantidad Acumulada</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${slicedData.map(row => `
+              <tr>
+                <td>${row.sucursal}</td>
+                <td>${new Date(row.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric' })}</td>
+                <td>${row.idproducto}</td>
+                <td>${row.tipomovimiento}</td>
+                <td>${row.cantidad_acumulada}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
     `;
   
     document.getElementById('resultados').innerHTML = table;

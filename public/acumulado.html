@@ -4,32 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta de Stock</title>
-  <link rel="stylesheet" href="css/acumulado.css">
+  <link rel="stylesheet" href="css/acumulado2.css">
   <link rel="stylesheet" href="css/footer.css">
   <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light ">
        
     
       
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="quiebres.html">Quiebres</a>
-          </li>
      
         <li class="nav-item active">
           <a class="nav-link" href="acumulado.html"><Strong>Stock</Strong></a>
         </li>
+
         <li class="nav-item ">
-            <a class="nav-link" href="movimientos.html">Movimientos</a>
-          </li>
+          <a class="nav-link" href="movimientos.html"><Strong>Movimientos</Strong></a>
+        </li>
       </ul>
     
     </div>
@@ -48,7 +46,7 @@
       <input type="hidden" id="idproducto" name="idproducto"> <!-- Campo oculto para almacenar el ID del producto -->
       <label for="sucursal">Sucursal:</label>
       <input type="text" id="sucursal" name="sucursal" required>
-      <button type="submit">Consultar</button>
+      <button type="submit" id="consultarButton">Consultar <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span></button>
     </form>
 
     <!-- Contenedor para las tablas generadas -->
@@ -58,6 +56,21 @@
 
     
   <div id="resultados" class="tables-container">
+    <div class="tables-wrapper">
+      <!-- Tabla 1 -->
+      <div class="table-container">
+        <table>
+          <!-- Contenido de la tabla 1 -->
+        </table>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <!-- Contenido de la tabla 2 -->
+        </table>
+      </div>
+    
+
     <!-- Aquí se insertarán las tablas generadas -->
   </div>
    
@@ -66,7 +79,7 @@
   <div class="footer-basic">
     <footer>
        
-        <p class="copyright">©Farmacia Sanchez Antoniolli 2018</p>
+        <p class="copyright">©Farmacias Sanchez Antoniolli 2018</p>
     </footer>
 </div>
 
@@ -74,6 +87,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <script src="js/acumulado.js"></script>
+  <script src="js/acumulado2.js"></script>
 </body>
 </html>
