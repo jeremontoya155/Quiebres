@@ -135,16 +135,16 @@ app.get('/consulta-stock', (req, res) => {
 
   // Consulta SQL para obtener los datos de stock
   const sqlQuery = `
-    SELECT sucursal, CURDATE() as fecha, idproducto, 'S' as tipomovimiento, cantidad, unidades, NULL as referencia
+    SELECT sucursal, CURDATE() as fecha, idproducto, 'S' as tipomovimiento, cantidad, unidades
     FROM stock 
     WHERE idproducto = ? AND sucursal = ?
     
     UNION ALL
     
-    SELECT sucursal, fecha, idproducto, tipomovimiento, SUM(cantidad)*(-1) as cantidad, SUM(unidades)*(-1 ) as unidades, referencia
+    SELECT sucursal, fecha, idproducto, tipomovimiento, SUM(cantidad)*(-1) as cantidad, SUM(unidades)*(-1 ) as unidades
     FROM stockmovimientos 
     WHERE fecha >= ? AND idproducto = ? AND sucursal = ?
-    GROUP BY sucursal, fecha, idproducto, tipomovimiento, referencia
+    GROUP BY sucursal, fecha, idproducto, tipomovimiento
   `;
 
   // Ejecutar la consulta SQL

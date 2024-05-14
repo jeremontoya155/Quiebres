@@ -13,27 +13,29 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed">
        
     
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
-              <a class="nav-link" href="index.html"><Strong>Home</Strong> <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="index.html">Home  </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="quiebres.html">Quiebres</a>
+              </li>
          
             <li class="nav-item ">
               <a class="nav-link" href="acumulado.html">Stock</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="movimientos.html"><Strong>Movimientos</Strong></a>
+                <a class="nav-link" href="movimientos.html"> <strong>Movimientos</strong></a>
               </li>
           </ul>
         
         </div>
       </nav>
-
 
       <div class="container">
       
@@ -54,14 +56,27 @@
       </div>
 
 
+      <canvas id="movimientosChart" width="300" height="200" class="my-5 mx-3"></canvas>
+
+      
 
     <div class="footer-basic">
         <footer>
-            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
             
             <p class="copyright">©Farmacia Sanchez Antoniolli 2018</p>
         </footer>
     </div>
+
+    <script>
+      const colores = [
+          'rgba(255, 99, 132, 0.8)',  // Rojo
+          'rgba(54, 162, 235, 0.8)',   // Azul
+          'rgba(255, 206, 86, 0.8)',   // Amarillo
+          'rgba(75, 192, 192, 0.8)',   // Verde
+          'rgba(153, 102, 255, 0.8)',  // Morado
+          'rgba(255, 159, 64, 0.8)'    // Naranja
+      ];
+  </script>
 
     <!-- Bootstrap JS y jQuery (necesarios para la funcionalidad de Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -70,6 +85,15 @@
 
     <!-- Script personalizado para la funcionalidad del formulario y la tabla -->
     <script src="js/mov.js"></script>
+        <!-- Moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
 
 </body>
 </html>

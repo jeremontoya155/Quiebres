@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Stock</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/footer.css">
     <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -12,69 +12,49 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed">
        
     
       
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html"><Strong>Home</Strong> <span class="sr-only">(current)</span></a>
-            </li>
-         
-            <li class="nav-item active">
-              <a class="nav-link" href="acumulado.html">Stock</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="movimientos.html"><Strong>Movimientos</Strong></a>
-              </li>
-          </ul>
-        
-        </div>
-      </nav>
-
-    <div class="container mt-5">
-        <form id="sucursalForm" class="mb-3">
-            <div class="form-group row">
-                <label for="sucursal" class="col-sm-4 col-form-label text-right">Ingrese el número de sucursal:</label>
-                <div class="col-sm-4">
-                    <input type="number" id="sucursal" name="sucursal" class="form-control" required>
-                </div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-primary">Consultar</button>
-                    <button id="descargarTabla" class="btn btn-success">Descargar Tabla</button>
-                </div>
-            </div>
-        </form>
-
-        <div class="table-wrapper-scroll-y mb-4">
-            <table id="resultados" class="table table-striped table-bordered">
-                <!-- Aquí se mostrarán los resultados de la consulta -->
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>codebar</th>
-                        <th>Sucursal</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>               
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se llenará la tabla dinámicamente -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Botón de descarga de la tabla -->
-       
-
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html"><strong>Home</strong>  </a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="quiebres.html">Quiebres</a>
+          </li>
+     
+        <li class="nav-item ">
+          <a class="nav-link" href="acumulado.html">Stock</a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="movimientos.html">Movimientos</a>
+          </li>
+      </ul>
+    
     </div>
+  </nav>
 
+      <div class="container">
+        <div class="section">
+          <h2>Quiebres</h2>
+          <p>Filtrando por sucursal vemos todos los valores de stock en la ultima semana que esten en 0 o negativos
+            podemos filtrar por producto o cantidad
+          </p>
+        </div>
+        <div class="section">
+          <h2>Stock</h2>
+          <p>Nos permite ver el Stock historico para un producto entre el rango de fecha que querramos para corroborar los quiebres</p>
+        </div>
+        <div class="section">
+          <h2>Movimientos</h2>
+          <p>Nos da el detalle que formo el stock para un producto en particular</p>
+        </div>
+      </div>
+ 
     <div class="footer-basic my-6">
         <footer>
-            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
             
             <p class="copyright">©Farmacia Sanchez Antoniolli 2018</p>
         </footer>
