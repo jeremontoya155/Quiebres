@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 app.use(express.static('public'));
 
 // Configuración de la conexión a la base de datos utilizando las variables de entorno
@@ -60,7 +60,7 @@ app.get('/datos/:sucursal', (req, res) => {
         medicamentos.Presentaci, 
         stock.Cantidad
     HAVING 
-        stock.Cantidad <0;
+        stock.Cantidad <10;
   `;
 
   // Realizar la consulta SQL principal con la variable de sucursal ya definida
@@ -151,7 +151,7 @@ app.get('/consulta-stock', (req, res) => {
   connection.query(sqlQuery, [idproducto, sucursal, fecha, idproducto, sucursal], (error, results) => {
     if (error) {
       console.error('Error al ejecutar la consulta SQL:', error);
-      res.status(500).json({ error: 'Error al ejecutar la consulta' });
+      res.status(500).json({ error: 'Error al ejecutar la consulta' }); 
       return;
     }
 
@@ -159,6 +159,40 @@ app.get('/consulta-stock', (req, res) => {
     res.json(results);
   });
 });
+
+
+
+// Endpoint para obtener los detalles de los productos cargados por mes y sucursal
+app.get('/detalles-productos', (req, res) => {
+  const query = `
+    SELECT 
+      stockmovimientos.Fecha,
+      stockmovimientos.Sucursal,
+      stockmovimientos.IDProducto,
+      COUNT(*) AS CantidadCargada
+    FROM 
+      stockmovimientos
+    WHERE 
+      stockmovimientos.Referencia = "Alta de stock" 
+      AND stockmovimientos.Fecha BETWEEN '2024-05-01' AND CURDATE()
+    GROUP BY 
+      YEAR(stockmovimientos.Fecha), 
+      MONTH(stockmovimientos.Fecha),
+      stockmovimientos.Sucursal,
+      stockmovimientos.IDProducto;
+  `;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error al ejecutar la consulta SQL:', error);
+      res.status(500).json({ error: 'Error al ejecutar la consulta' });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
 
 
 

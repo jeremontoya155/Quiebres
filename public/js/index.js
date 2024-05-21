@@ -61,6 +61,7 @@ function crearCamposDeFiltro(dataRow) {
 }
 
 // Función para aplicar los filtros
+// Función para aplicar los filtros
 function aplicarFiltro() {
     const filtroInputs = document.querySelectorAll('#resultados thead input');
     const filtroValues = Array.from(filtroInputs).map(input => input.value.toLowerCase().trim());
@@ -72,9 +73,9 @@ function aplicarFiltro() {
         let mostrarFila = true;
 
         cells.forEach((cell, index) => {
-            const cellValue = cell.textContent.toLowerCase();
-            const filtroValue = filtroValues[index];
-            if (filtroValue && !cellValue.includes(filtroValue)) {
+            const cellValue = parseFloat(cell.textContent.toLowerCase()); // Convertir el texto a número
+            const filtroValue = parseFloat(filtroValues[index]); // Convertir el valor del filtro a número
+            if (!isNaN(cellValue) && !isNaN(filtroValue) && cellValue >= filtroValue) { // Comprobar si el valor de la celda es mayor o igual al valor del filtro
                 mostrarFila = false;
             }
         });

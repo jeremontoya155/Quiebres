@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detalles de Productos Cargados</title>
+<style>
+  /* Estilos CSS para la tabla */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<h2>Detalles de Productos Cargados</h2>
+
+<div>
+  <label for="producto">Buscar Producto:</label>
+  <input type="text" id="producto">
+  <button onclick="buscarProducto()">Buscar</button>
+</div>
+
+<div>
+  <label for="mes">Mes:</label>
+  <select id="mes">
+    <option value="1">Enero</option>
+    <option value="2">Febrero</option>
+    <!-- Agregar opciones para los otros meses -->
+  </select>
+
+  <label for="anio">Año:</label>
+  <input type="number" id="anio" min="2000" max="2100" value="2024">
+  <button onclick="verMesAnterior()">Ver Mes Anterior</button>
+</div>
+
+<div>
+  <label for="sucursales">Seleccionar Sucursales:</label>
+  <select id="sucursales" multiple>
+    <!-- Opciones de sucursales -->
+    <option value="sucursal1">Sucursal 1</option>
+    <option value="sucursal2">Sucursal 2</option>
+    <!-- Agregar más opciones según sea necesario -->
+  </select>
+</div>
+
+<table id="productosTable">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Sucursal</th>
+      <th>ID Producto</th>
+      <th>Cantidad Cargada</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Aquí se llenarán los datos dinámicamente -->
+  </tbody>
+</table>
+
+<script>
+  function buscarProducto() {
+    const producto = document.getElementById('producto').value;
+    // Realizar una solicitud HTTP con el parámetro del producto
+    // y actualizar la tabla con los resultados
+  }
+
+  function verMesAnterior() {
+    const mesSeleccionado = document.getElementById('mes').value;
+    const anioSeleccionado = document.getElementById('anio').value;
+    // Calcular el mes anterior
+    const mesAnterior = (mesSeleccionado == 1) ? 12 : mesSeleccionado - 1;
+    const anioAnterior = (mesSeleccionado == 1) ? anioSeleccionado - 1 : anioSeleccionado;
+
+    // Realizar una solicitud HTTP con los parámetros del mes y año anteriores
+    // y actualizar la tabla con los resultados
+  }
+
+  // Hacer una solicitud HTTP inicial al cargar la página para obtener los detalles de los productos
+  fetch('/detalles-productos')
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.querySelector('#productosTable tbody');
+
+      // Crear filas de tabla con datos
+      data.forEach(rowData => {
+        const row = document.createElement('tr');
+        Object.values(rowData).forEach(value => {
+          const td = document.createElement('td');
+          td.textContent = value;
+          row.appendChild(td);
+        });
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => console.error('Error al obtener los detalles de los productos:', error));
+</script>
+
+</body>
+</html>
